@@ -1,0 +1,33 @@
+{
+  "name": "facebook-clone",
+  "version": "1.0.0",
+  "description": "a facebook clone",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node node_modules/jasmine/bin/jasmine.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alittlecross/facebook-clone.git"
+  },
+  "author": "alittlecross",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "pg": "^7.8.1"
+  },
+  "devDependencies": {
+    "jasmine": "^3.3.1",
+    "nodemon": "^1.18.10"
+  },
+  "standard": {
+    "ignore": [
+      "spec/"
+    ]
+  }
+}
