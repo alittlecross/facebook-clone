@@ -1,6 +1,3 @@
-CREATE DATABASE facebook_clone;
-CREATE DATABASE facebook_clone_test;
-
 CREATE TABLE users (
   userid SERIAL PRIMARY KEY,
   firstname varchar(50),
@@ -58,4 +55,13 @@ CREATE TABLE photos (
   createdat timestamptz NOT NULL DEFAULT NOW(),
   FOREIGN KEY (postid) REFERENCES posts(postid),
   FOREIGN KEY (commentid) REFERENCES comments(commentid)
+);
+
+CREATE TABLE friendrequests (
+  friendrequester int,
+  friendrequested int,
+  createdat timestamptz NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (friendrequester) REFERENCES users(userid),
+  FOREIGN KEY (friendrequested) REFERENCES users(userid),
+  PRIMARY KEY (friendrequester, friendrequested)
 );
