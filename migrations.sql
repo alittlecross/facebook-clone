@@ -1,3 +1,8 @@
+CREATE TABLE sex (
+  sexid SERIAL PRIMARY KEY,
+  sex varchar(6)
+);
+
 CREATE TABLE users (
   userid SERIAL PRIMARY KEY,
   firstname varchar(50),
@@ -5,8 +10,10 @@ CREATE TABLE users (
   email varchar(100),
   password varchar(140),
   dob date,
+  sexid int,
   profilepictureurl varchar(255),
-  createdat timestamptz NOT NULL DEFAULT NOW()
+  createdat timestamptz NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (sexid) REFERENCES sex(sexid)
 );
 
 CREATE TABLE friends (
