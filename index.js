@@ -3,6 +3,8 @@ const express = require('express')
 const session = require('express-session')
 
 const user = require('./lib/user')
+const post = require('./lib/post')
+const friend = require('./lib/friend')
 
 const app = express()
 
@@ -25,30 +27,67 @@ app.get('/', (req, res) => {
 })
 
 app.post('/sign-in', async (req, res) => {
-  let result = await user.logIn(req.body.email, req.body.password)
+  let result = await user.logIn(req.body)
   if (result === false) {
     req.session.sessionFlash = { message: 'Email address or password incorrect.' }
     res.redirect('/')
   } else {
-    req.session.userid = result.userid
+    req.session.user = result
     res.redirect('/news-feed')
   }
 })
 
 app.post('/sign-up', async (req, res) => {
-  if (await user.alreadyRegistered(req.body.email)) {
+  if (await user.alreadyRegistered(req.body)) {
     req.session.sessionFlash = { message: 'Email address already in use.' }
     res.redirect('/')
   } else {
-    let dob = `${req.body.year}-${req.body.month}-${req.body.day}`
-    let result = await user.register(req.body.firstName, req.body.surname, req.body.email, req.body.password, dob, req.body.sexId)
-    req.session.userid = result.userid
+    let result = await user.register(req.body)
+    await friend.confirm(result.userId, result.userId)
+    req.session.user = result
     res.redirect('/news-feed')
   }
 })
 
-app.get('/news-feed', (req, res) => {
-  res.render('news-feed.ejs')
+app.get('/news-feed', async (req, res) => {
+  let posts = await post.getPosts(req.session.user)
+  let users = await user.getUsers(req.session.user)
+  res.render('news-feed.ejs', { user: req.session.user, posts: posts, users: users })
+})
+
+app.post('/create-post', async (req, res) => {
+  if (req.body.content !== '') {
+    await post.create(req.body)
+  }
+  res.redirect('/news-feed')
+})
+
+app.get('/add/:requester/:requested', async (req, res) => {
+  let requester = req.params.requester
+  let requested = req.params.requested
+  await friend.add(requester, requested)
+  res.redirect('/news-feed')
+})
+
+app.get('/confirm/:requester/:requested', async (req, res) => {
+  let requester = req.params.requester
+  let requested = req.params.requested
+  await friend.confirm(requester, requested)
+  res.redirect('/news-feed')
+})
+
+app.get('/cancel/:requester/:requested', async (req, res) => {
+  let requester = req.params.requester
+  let requested = req.params.requested
+  await friend.cancel(requester, requested)
+  res.redirect('/news-feed')
+})
+
+app.get('/remove/:requester/:requested', async (req, res) => {
+  let requester = req.params.requester
+  let requested = req.params.requested
+  await friend.remove(requester, requested)
+  res.redirect('/news-feed')
 })
 
 app.listen(3000)

@@ -3,20 +3,18 @@
   <head>
     <%- include('_head') %>
   </head>
-  <body>
+  <body id='index'>
     <div id='menu-bar'>
       <div id='menu-box'>
-        <img id='facebook-logo' src='images/logo.png' alt='facebook logo'>
+        <img id='facebook-logo' src='images/facebook.png' alt='facebook logo'>
         <form id='sign-in' action='/sign-in' method='POST'>
           <div id='email'>
             <div class='label'>Email</div>
             <input type='email' name='email' required>
-          </div>
-          <div id='password'>
+          </div><div id='password'>
             <div class='label'>Password</div>
             <input type='password' name='password' required>
-          </div>
-          <div id='submit'>
+          </div><div id='submit'>
             <input type='submit' value='Log In'>
           </div>
         </form>
@@ -37,8 +35,7 @@
           <form id='sign-up' action='/sign-up' method='POST'>
             <div id='create'>Create an account</div>
             <div id='free-and-always'>It's free and always will be.</div>
-            <input type='text' name='firstName' placeholder='First name' required>
-            <input type='text' name='surname' placeholder='Surname' required>
+            <input type='text' name='firstName' placeholder='First name' required><input type='text' name='surname' placeholder='Surname' required>
             <input type='email' name='email' placeholder='Email address' required>
             <input type='password' name='password' placeholder='New password' required>
             <div id='birthday'>Birthday</div>
@@ -76,8 +73,7 @@
                 <option value='29' selected>29</option>
                 <option value='30'>30</option>
                 <option value='31'>31</option>
-              </select>
-              <select id='month' name='month'>
+              </select><select id='month' name='month'>
                 <option value='00'>Month</option>
                 <option value='01'>Jan</option>
                 <option value='02'>Feb</option>
@@ -91,8 +87,7 @@
                 <option value='10'>Oct</option>
                 <option value='11'>Nov</option>
                 <option value='12'>Dec</option>
-              </select>
-              <select id='year' name='year'>
+              </select><select id='year' name='year'>
                 <option value='0000'>Year</option>
                 <option value='2003'>2003</option>
                 <option value='2002'>2002</option>
@@ -198,10 +193,14 @@
               </select>
             </div>
             <div id='radio'>
-              <input type='radio' name='sexId' value='1'>
-              <div class='sex'>Female</div>
-              <input type='radio' name='sexId' value='2'>
-              <div class='sex'>Male</div>
+              <div id='female'>
+                <input type='radio' name='sexId' value='1'>
+                <div class='sex'>Female</div>
+              </div>
+              <div id='male'>
+                <input type='radio' name='sexId' value='2'>
+                <div class='sex'>Male</div>
+              </div>
             </div>
             <input type='submit' value='Sign Up'>
           </form>
