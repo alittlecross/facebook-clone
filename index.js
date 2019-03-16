@@ -4,7 +4,13 @@ const session = require('express-session')
 
 const user = require('./lib/user')
 const post = require('./lib/post')
+const comment = require('./lib/comment')
+const like = require('./lib/like')
 const friend = require('./lib/friend')
+
+let position = {
+  y: 0
+}
 
 const app = express()
 
@@ -23,7 +29,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-  res.render('index.ejs', { sessionFlash: res.locals.sessionFlash })
+  res.render('index.ejs', { sessionFlash: res.locals.sessionFlash, position: position })
 })
 
 app.post('/sign-in', async (req, res) => {
@@ -52,13 +58,27 @@ app.post('/sign-up', async (req, res) => {
 app.get('/news-feed', async (req, res) => {
   let posts = await post.getPosts(req.session.user)
   let users = await user.getUsers(req.session.user)
-  res.render('news-feed.ejs', { user: req.session.user, posts: posts, users: users })
+  res.render('news-feed.ejs', { user: req.session.user, posts: posts, users: users, position: position })
 })
 
 app.post('/create-post', async (req, res) => {
   if (req.body.content !== '') {
     await post.create(req.body)
   }
+  res.redirect('/news-feed')
+})
+
+app.post('/create-comment', async (req, res) => {
+  position.y = req.body.position
+  if (req.body.content !== '') {
+    await comment.create(req.body)
+  }
+  res.redirect('/news-feed')
+})
+
+app.post('/toggle-like', async (req, res) => {
+  position.y = req.body.position
+  await like.toggle(req.body)
   res.redirect('/news-feed')
 })
 
@@ -88,6 +108,12 @@ app.get('/remove/:requester/:requested', async (req, res) => {
   let requested = req.params.requested
   await friend.remove(requester, requested)
   res.redirect('/news-feed')
+})
+
+app.get('/log-out', (req, res) => {
+  position.y = 0
+  req.session.destroy()
+  res.redirect('/')
 })
 
 app.listen(3000)

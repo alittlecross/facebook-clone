@@ -1,112 +1,30 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <%- include('_head') %>
-  </head>
-  <body id='news-feed'>
-    <div id='menu-bar'>
-      <div id='menu-box'>
-        <a href='/news-feed'><img id='f-logo' src='images/f.png' alt='f logo'></a>
-        <a id='log-out' href='/'>Log Out</a>
-        <div id='bar'></div>
-        <a id='home' href='/news-feed'>Home</a>
-        <div id='bar'></div>
-        <a id='user' href='/news-feed'>
-          <img id='thumbnail' src='<%= user.profilePictureUrl %>' alt='<%= user.profilePictureUrl %>'>
-          <div id='name'>
-            <%= user.firstName %>
-          </div>
-        </a>
-      </div>
+<%- include('_head') %>
+
+<body id='news-feed'>
+
+  <header>
+    <div class='items'>
+      <a href='/news-feed'><img id='f-logo' src='images/f.png' alt='facebook logo'></a>
+      <a id='log-out-link' href='/log-out'>Log Out</a>
+      <div class='pipe'></div>
+      <a class='news-feed-link' href='/news-feed'>Home</a>
+      <div class='pipe'></div>
+      <a class='user-link'>
+        <img class='thumbnail' src='<%= user.profilePictureUrl %>' alt='profile picture'>
+        <div class='name'>
+          <%= user.firstName %>
+        </div>
+      </a>
     </div>
-    <main>
-      <div id='main'>
-        <div id='left'>
-          <div id='user'>
-            <img id='thumbnail' src='<%= user.profilePictureUrl %>' alt='<%= user.profilePictureUrl %>'>
-            <div id='name'>
-              <%= user.firstName + ' ' + user.surname %>
-            </div>
-          </div>
-          <div id='news-feed-link'>
-            <img id='news-feed-icon' src='images/newsfeed.png' alt='newsfeed'>
-            <div id='news-feed-title'>News Feed</div>
-          </div>
-        </div>
-        <div id='middle'>
-          <div id='create-post'>
-            <div id='top-box'>Create post</div>
-            <div id='middle-box'>
-              <img id='bigger-thumbnail' src='<%= user.profilePictureUrl %>' alt='<%= user.profilePictureUrl %>'>
-              <form id='post-form' action='/create-post' method='POST'>
-                <input type='hidden' name='userId' value='<%= user.userId %>'>
-                <textarea name='content' id='content' placeholder="What's on your mind, <%= user.firstName %>?"></textarea>
-              </form>
-            </div>
-            <div id='bottom-box'>
-              <div id='add-photo'>
-                <img id='photo' src='images/photo.png' alt='photo'>
-                <div id='text'>Photo/Video</div>
-              </div>
-              <button id='share' type='submit' form='post-form'>
-                <div id='text'>Share</div>
-              </button>
-            </div>
-          </div>
+  </header>
 
-          <% posts.forEach(function(post) { %>
-            <div id='display-post'>
-              <img id='bigger-thumbnail' src='<%= post.profilePictureUrl %>' alt='<%= post.profilepictureurl %>'>
-              <div id='poster'><%= post.firstName + ' ' + post.surname %></div>
-              <div id='time'>2 hrs</div>
-              <div id='post-view'><%= post.content %></div>
-            </div>
-          <% }) %>
+  <main>
+    <div class='items'>
+    <%- include('_left') %>
+    <%- include('_middle') %>
+    <%- include('_right') %>
+    </div>
+  </main>
 
-        </div>
-        <div id='right'>
-          <div id='people'>
-            <div id='you-may-know'>People you may know...</div>
-
-            <% users.forEach(function(person) { %>
-              <div id='person'>
-              <img id='biggest-thumbnail' src='<%= person.profilePictureUrl %>' alt='<%= person.profilepictureurl %>'>
-              
-              <% if (person.friend === user.userId) { %>
-                <a href='/remove/<%= user.userId %>/<%= person.userId %>'><button id='remove-button'>
-                  <div id='remove'>Remove</div>
-                </button></a>
-                <div id='friend-name'><%= person.firstName + ' ' + person.surname %></div>
-                <div id='options'>3 hours ago</div>
-              
-              <% } else if (person.friendRequester === user.userId) { %>
-                <a href='/cancel/<%= user.userId %>/<%= person.userId %>'><button id='pending-button'>
-                  <div id='pending'>Pending</div>
-                </button></a>
-                <div id='friend-name'><%= person.firstName + ' ' + person.surname %></div>
-                <div id='options'>3 hours ago</div>
-              
-              <% } else if (person.friendRequested === user.userId) { %>
-                <a href='/confirm/<%= user.userId %>/<%= person.userId %>'><button id='confirm-button'>
-                  <div id='confirm'>Confirm</div>
-                </button></a>
-                <div id='friend-name'><%= person.firstName + ' ' + person.surname %></div>
-                <div id='options'>3 hours ago</div>
-              
-              <% } else { %>
-                <a href='/add/<%= user.userId %>/<%= person.userId %>'><button id='add-button'>
-                  <img src='images/plus.png' alt=plus>
-                  <div id='add'>Add</div>
-                </button></a>
-                <div id='friend-name'><%= person.firstName + ' ' + person.surname %></div>
-                <div id='options'>3 hours ago</div>
-              
-              <% } %>
-              </div>
-            <% }) %>
-          </div>
-        </div>
-      </div>
-    </main>
-  </body>
-</html>
+</body>
+  

@@ -1,0 +1,53 @@
+<div class='right'>
+
+  <div id='friend-suggestions'>
+    <div id='friend-sentence'>People you may know...</div>
+
+  <% users.forEach(function(person) { %>
+    <div class='person'>
+      <img class='thumbnail' src='<%= person.profilePictureUrl %>' alt='profile picture'>
+      
+    <% if (person.friend === user.userId) { %>
+      <div class='details'>
+        <div class='name'><%= person.firstName + ' ' + person.surname %></div>
+        <div class='friend-status-sentence'>You are friends</div>
+      </div>
+      <a class='remove-button' href='/remove/<%= user.userId %>/<%= person.userId %>'>
+        <div class='word'>Remove</div>
+      </a>
+    
+    <% } else if (person.friendRequester === user.userId) { %>
+      <div class='details'>
+        <div class='name'><%= person.firstName + ' ' + person.surname %></div>
+        <div class='friend-status-sentence'>You're waiting</div>
+      </div>
+      <a class='pending-button' href='/cancel/<%= user.userId %>/<%= person.userId %>'>
+        <div class='word'>Pending</div>
+      </a>
+    
+    <% } else if (person.friendRequested === user.userId) { %>
+      <div class='details'>
+        <div class='name'><%= person.firstName + ' ' + person.surname %></div>
+        <div class='friend-status-sentence'>Confirm them</div>
+      </div>
+      <a class='confirm-button' href='/confirm/<%= user.userId %>/<%= person.userId %>'>
+        <div class='word'>Confirm</div>
+      </a>
+    
+    <% } else { %>
+      <div class='details'>
+        <div class='name'><%= person.firstName + ' ' + person.surname %></div>
+        <div class='friend-status-sentence'>Make friends</div>
+      </div>
+      <a class='add-button' href='/add/<%= user.userId %>/<%= person.userId %>'>
+        <img src='images/plus.png' alt='plus'>
+        <div class='word'>Add</div>
+      </a>
+    
+    <% } %>
+    </div>
+    
+  <% }) %>
+  </div>
+
+</div>

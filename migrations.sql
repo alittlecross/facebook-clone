@@ -44,14 +44,14 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE likes (
+  likeid SERIAL PRIMARY KEY,
   userid int,
   postid int,
   commentid int,
   createdat timestamptz NOT NULL DEFAULT NOW(),
   FOREIGN KEY (userid) REFERENCES users(userid),
   FOREIGN KEY (postid) REFERENCES posts(postid),
-  FOREIGN KEY (commentid) REFERENCES comments(commentid),
-  PRIMARY KEY (userid, postid, commentid)
+  FOREIGN KEY (commentid) REFERENCES comments(commentid)
 );
 
 CREATE TABLE photos (

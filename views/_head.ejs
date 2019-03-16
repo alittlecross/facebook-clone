@@ -1,6 +1,17 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Facebook</title>
-<link rel="stylesheet" href="main.css">
-<link rel="icon" href="main.ico">
-<script src="main.js"></script>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Facebook</title>
+  <link rel='stylesheet' href='main.css'>
+  <link rel='icon' href='main.ico'>
+  <script>
+    function savePosition (form, formNumber) {
+      document.getElementById(`${form}-position ${formNumber}`).value = document.body.scrollTop
+      document.getElementById(`${form}-form ${formNumber}`).submit()
+    }
+    
+    window.addEventListener('load', () => {
+      window.scrollTo(0, <%= position.y %>)
+    })
+  </script>
+</head>

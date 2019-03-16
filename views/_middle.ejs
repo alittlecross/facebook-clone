@@ -1,0 +1,84 @@
+<div class='middle'>
+
+  <div id='create-post'>
+    <div id='top'>Create post</div>
+    <img class='thumbnail' src='<%= user.profilePictureUrl %>' alt='profile picture'>
+    <form id='post-form' action='/create-post' method='POST'>
+      <input type='hidden' name='userId' value='<%= user.userId %>'>
+      <textarea class='content' name='content' placeholder="What's on your mind, <%= user.firstName %>?"></textarea>
+    </form>
+    <div class='bottom'>
+      <div id='add-photo'>
+        <img id='icon' src='images/photo.png' alt='photo'>
+        <div id='words'>Photo/Video</div>
+      </div>
+      <button type='submit' form='post-form'>Share</button>
+    </div>
+  </div>
+
+<% posts.forEach(function(post) { %>
+  <div class='display-post'>
+    <img class='thumbnail' src='<%= post.profilePictureUrl %>' alt='profile picture'>
+    <div class='name'><%= post.firstName + ' ' + post.surname %></div>
+    <div class='post-created-at'><%= post.createdAt %></div>
+    <div class='post-content'><%= post.content %></div>
+
+    <% if (post.likeCount > 0 || post.commentCount > 0) { %>
+      <div class='social'>
+      <% if (post.likeCount > 0) { %>
+        <div class='like-count'>
+          <img class='icon' src='images/small-thumbs-up.png' alt='small thumbs up'>
+          <div class='number'><%= ' ' + post.likeCount %><span class='tooltiptext'>
+          <% post.likedBy.forEach(function(like) { %>
+            <%= like.firstName %>&nbsp;<%= like.surname %>
+          <% }) %>
+          </span></div>
+        </div>
+      <% } %>
+      <% if (post.commentCount === 1) { %>
+        <div class='comment-count'><%= post.commentCount + ' comment' %></div>
+      <% } %>
+      <% if (post.commentCount > 1) { %>
+        <div class='comment-count'><%= post.commentCount + ' comments' %></div>
+      <% } %>
+      </div>
+    <% } %>
+
+    <div class='options'>
+      <button class='like-button' onclick='savePosition(`like`, <%= post.postId %>)'>
+        <img class='icon' src='images/<%= post.likedByYou %>-thumbs-up.png' alt='empty thumbs up'>
+        <div class='word-<%= post.likedByYou %>'>Like</div>
+      </button>
+      <button class='comment-button' onclick='savePosition(`comment`, <%= post.postId %>)'>
+        <img class='icon' src='images/speech-bubble.png' alt='speech bubble'>
+        <div class='word-empty'>Comment</div>
+      </button>
+    </div>
+    <form hidden id='like-form <%= post.postId %>' action='/toggle-like' method='POST'>
+      <input type='hidden' name='userId' value='<%= user.userId %>'>
+      <input type='hidden' name='postId' value='<%= post.postId %>'>
+      <input type='hidden' name='commentId' value='0'>
+      <input type='hidden' name='position' value='0' id='like-position <%= post.postId %>'>
+    </form>
+
+  <% post.comments.forEach(function(comment) { %>
+    <div class='comment'>
+      <img class='thumbnail' src='<%= comment.profilePictureUrl %>' alt='profile picture'>
+      <div class='comment-content'><span class='name'><%= comment.firstName + ' ' + comment.surname %></span>&nbsp;<%= comment.content %></div>
+    </div>
+    <div class='comment-created-at'><%= comment.createdAt %></div>
+  <% }) %>
+
+    <div class='leave-comment'>
+      <img class='thumbnail' src='<%= user.profilePictureUrl %>' alt='profile picture'>
+      <form id='comment-form <%= post.postId %>' action='/create-comment' method='POST'>
+        <input type='hidden' name='userId' value='<%= user.userId %>'>
+        <input type='hidden' name='postId' value='<%= post.postId %>'>
+        <input class='comment-content'type='text' name='content' placeholder='Write a comment...' autocomplete='off'>
+        <input type='hidden' name='position' value='0' id='comment-position <%= post.postId %>'>
+      </form>
+    </div>
+  </div>
+<% }) %>
+
+</div>
