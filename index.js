@@ -57,7 +57,7 @@ app.post('/sign-up', async (req, res) => {
 
 app.get('/news-feed', async (req, res) => {
   let posts = await post.getPosts(req.session.user)
-  let users = await user.getUsers(req.session.user)
+  let users = await friend.getUsers(req.session.user)
   res.render('news-feed.ejs', { user: req.session.user, posts: posts, users: users, position: position })
 })
 

@@ -54,16 +54,6 @@ CREATE TABLE likes (
   FOREIGN KEY (commentid) REFERENCES comments(commentid)
 );
 
-CREATE TABLE photos (
-  photoid SERIAL PRIMARY KEY,
-  postid int,
-  commentid int,
-  url varchar(255),
-  createdat timestamptz NOT NULL DEFAULT NOW(),
-  FOREIGN KEY (postid) REFERENCES posts(postid),
-  FOREIGN KEY (commentid) REFERENCES comments(commentid)
-);
-
 CREATE TABLE friendrequests (
   friendrequester int,
   friendrequested int,
