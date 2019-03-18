@@ -45,6 +45,14 @@ describe('User', () => {
 
       expect(result.firstName).toEqual('Michael')
     })
+
+    it('should return false if the password is incorrect', async () => {
+      await Helper.mockCreateUser()
+
+      let result = await User.logIn({ email: 'michael.scott@scranton.com', password: 'lastword' })
+
+      expect(result).toEqual(false)
+    })
   })
 
   describe('.hashPassword', () => {

@@ -29,11 +29,17 @@ describe('Post', () => {
   describe('.getPosts', () => {
     it('should return a post object', async () => {
       await Helper.mockCreateUser()
+      await Helper.mockCreateSecondUser()
+      await Helper.mockCreateFriend()
       await Helper.mockCreatePost()
+      await Helper.mockCreateSecondPost()
+      await Helper.mockCreateLike()
+      await Helper.mockCreateSecondLike()
+      await Helper.mockCreateComment()
 
       let results = await Post.getPosts({ userId: 1 })
 
-      expect(results.length).toEqual(1)
+      expect(results.length).toEqual(2)
     })
   })
 })

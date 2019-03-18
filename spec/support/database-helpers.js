@@ -98,6 +98,18 @@ class DatabaseSetup {
     return new Date('2019', '03', '15', '08', '03')
   }
 
+  static mockNewSecondDate () {
+    return new Date('2019', '03', '14', '08', '03')
+  }
+
+  static mockNewThirdDate () {
+    return new Date('2019', '03', '13', '08', '03')
+  }
+
+  static mockNewFourthDate () {
+    return new Date('2019', '03', '12', '18', '13')
+  }
+
   static async mockCreateUser () {
     let hash = bcrypt.hashSync('password', saltRounds)
     await dbc.query(`
@@ -145,11 +157,32 @@ class DatabaseSetup {
     `, ['1', '1', `I'm not superstitious, but I am a little stitious.`])
   }
 
+  static async mockCreateSecondPost () {
+    await dbc.query(`
+      INSERT INTO posts (postid, userid, content)
+      VALUES ($1, $2, $3);
+    `, ['2', '1', 'I declare bankruptcy!'])
+  }
+
   static async mockCreateLike () {
     await dbc.query(`
       INSERT INTO likes (userid, postid)
       VALUES ($1, $2);
     `, ['1', '1'])
+  }
+
+  static async mockCreateSecondLike () {
+    await dbc.query(`
+      INSERT INTO likes (userid, postid)
+      VALUES ($1, $2);
+    `, ['2', '2'])
+  }
+
+  static async mockCreateComment (data) {
+    await dbc.query(`
+      INSERT INTO comments (postid, userid, content)
+      VALUES ($1, $2, $3);
+    `, ['1', '1', 'False: Black bear.'])
   }
 
   static async mockReadLike (data) {

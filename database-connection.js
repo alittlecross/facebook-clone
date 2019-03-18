@@ -10,9 +10,6 @@ class DatabaseConnection {
       port: process.env.PGPORT
     })
     let result = await connection.query(string, argument)
-      .catch((error) => {
-        console.log(error)
-      })
     await connection.end()
     return result
   }

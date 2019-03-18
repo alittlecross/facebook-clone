@@ -52,6 +52,17 @@ describe('Like', () => {
   })
 
   describe('.toggle', () => {
+    it('should return evidence that the like was added', async () => {
+      await Helper.mockCreateUser()
+      await Helper.mockCreatePost()
+
+      await Like.toggle({ userId: 1, postId: 1 })
+
+      let result = await Helper.mockReadLike({ userId: 1, postId: 1 })
+
+      expect(result.rowCount).toEqual(1)
+    })
+
     it('should return evidence that the like was deleted', async () => {
       await Helper.mockCreateUser()
       await Helper.mockCreatePost()
