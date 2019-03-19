@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "nyc --reporter=text jasmine"
+    "test": "nyc --reporter=text mocha"
   },
   "repository": {
     "type": "git",
@@ -22,13 +22,14 @@
     "pg": "^7.8.1"
   },
   "devDependencies": {
-    "jasmine": "^3.3.1",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
     "nodemon": "^1.18.10",
     "nyc": "^13.3.0"
   },
   "standard": {
     "ignore": [
-      "spec/"
+      "test/"
     ]
   }
 }

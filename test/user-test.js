@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt')
 const User = require('../lib/user')
-const Helper = require('./support/database-helpers')
+const Helper = require('./test-helpers')
+
+const expect = require('chai').expect
 
 describe('User', () => {
-
   beforeEach(async () => {
     await Helper.setupConnection()
     await Helper.truncateDatabase()
@@ -13,7 +14,7 @@ describe('User', () => {
     it('should return a user object', () => {
       let result = User.userObject(Helper.mockUserDatabaseData())
 
-      expect(result.firstName).toEqual('Michael')
+      expect(result.firstName).equal('Michael')
     })
   })
 
@@ -23,7 +24,7 @@ describe('User', () => {
 
       let result = await User.getProfile('michael.scott@scranton.com')
 
-      expect(result.rows[0].firstname).toEqual('Michael')
+      expect(result.rows[0].firstname).equal('Michael')
     })
   })
 
@@ -33,7 +34,7 @@ describe('User', () => {
 
       let result = await User.alreadyRegistered({ email: 'michael.scott@scranton.com' })
 
-      expect(result).toEqual(true)
+      expect(result).equal(true)
     })
   })
 
@@ -43,7 +44,7 @@ describe('User', () => {
 
       let result = await User.logIn({ email: 'michael.scott@scranton.com', password: 'password' })
 
-      expect(result.firstName).toEqual('Michael')
+      expect(result.firstName).equal('Michael')
     })
 
     it('should return false if the password is incorrect', async () => {
@@ -51,7 +52,7 @@ describe('User', () => {
 
       let result = await User.logIn({ email: 'michael.scott@scranton.com', password: 'lastword' })
 
-      expect(result).toEqual(false)
+      expect(result).equal(false)
     })
   })
 
@@ -59,7 +60,7 @@ describe('User', () => {
     it('should return a hashed password', async () => {
       let result = await User.hashPassword('password')
 
-      expect(await bcrypt.compareSync('password', result)).toEqual(true)
+      expect(await bcrypt.compareSync('password', result)).equal(true)
     })
   })
 
@@ -67,7 +68,7 @@ describe('User', () => {
     it('should return a user object', async () => {
       let result = await User.register(Helper.mockUserFormData())
 
-      expect(result.firstName).toEqual('Michael')
+      expect(result.firstName).equal('Michael')
     })
   })
 })

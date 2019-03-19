@@ -1,8 +1,9 @@
 const Friend = require('../lib/friend')
-const Helper = require('./support/database-helpers')
+const Helper = require('./test-helpers')
+
+const expect = require('chai').expect
 
 describe('Friend', () => {
-
   beforeEach(async () => {
     await Helper.setupConnection()
     await Helper.truncateDatabase()
@@ -12,7 +13,7 @@ describe('Friend', () => {
     it('should return a friend object', () => {
       let result = Friend.friendObject(Helper.mockFriendDatabaseData())
 
-      expect(result.firstName).toEqual('Dwight')
+      expect(result.firstName).equal('Dwight')
     })
   })
 
@@ -23,7 +24,7 @@ describe('Friend', () => {
 
       let result = await Friend.add(1, 2)
 
-      expect(result.rows[0]).toEqual({ friendrequester: 1, friendrequested: 2 })
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -35,7 +36,7 @@ describe('Friend', () => {
 
       let result = await Friend.confirm(2, 1)
 
-      expect(result.rowCount).toEqual(1)
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -44,10 +45,10 @@ describe('Friend', () => {
       await Helper.mockCreateUser()
       await Helper.mockCreateSecondUser()
       await Helper.mockCreateFriendRequest()
-      
+
       let result = await Friend.cancel(1, 2)
 
-      expect(result.rowCount).toEqual(1)
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -59,7 +60,7 @@ describe('Friend', () => {
 
       let result = await Friend.remove(1, 2)
 
-      expect(result.rowCount).toEqual(2)
+      expect(result.rowCount).equal(2)
     })
   })
 
@@ -71,7 +72,7 @@ describe('Friend', () => {
 
       let result = await Friend.getUsers({ userId: 1 })
 
-      expect(result.length).toEqual(1)
+      expect(result.length).equal(1)
     })
   })
 })

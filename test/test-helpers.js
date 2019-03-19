@@ -7,9 +7,9 @@ process.env.PGPORT = 5432
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-const dbc = require('../../database-connection')
+const dbc = require('../database-connection')
 
-class DatabaseSetup {
+class Helper {
   static setupConnection () {
     process.env.PGUSER = '',
     process.env.PGPASSWORD = '',
@@ -21,11 +21,11 @@ class DatabaseSetup {
   static async truncateDatabase () {
     await dbc.query(`
       TRUNCATE users, posts, likes, friends, friendrequests, comments CASCADE;
-    `);
+    `)
   }
 
   static mockUserFormData () {
-    return { 
+    return {
       userId: '1',
       firstName: 'Michael',
       surname: 'Scott',
@@ -40,7 +40,7 @@ class DatabaseSetup {
   }
 
   static mockUserDatabaseData () {
-    return { 
+    return {
       userid: '1',
       firstname: 'Michael',
       surname: 'Scott',
@@ -194,4 +194,4 @@ class DatabaseSetup {
   }
 }
 
-module.exports = DatabaseSetup
+module.exports = Helper

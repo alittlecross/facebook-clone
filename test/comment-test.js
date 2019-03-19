@@ -1,8 +1,9 @@
 const Comment = require('../lib/comment')
-const Helper = require('./support/database-helpers')
+const Helper = require('./test-helpers')
+
+const expect = require('chai').expect
 
 describe('Comment', () => {
-
   beforeEach(async () => {
     await Helper.setupConnection()
     await Helper.truncateDatabase()
@@ -12,7 +13,7 @@ describe('Comment', () => {
     it('should return a comment object', () => {
       let result = Comment.commentObject(Helper.mockCommentDatabaseData())
 
-      expect(result.firstName).toEqual('Jim')
+      expect(result.firstName).equal('Jim')
     })
   })
 
@@ -23,7 +24,7 @@ describe('Comment', () => {
 
       let result = await Comment.create({ postId: 1, userId: 1, content: 'Question: Which bear is best?' })
 
-      expect().toEqual()
+      expect(result.rowCount).equal(1)
     })
   })
 })

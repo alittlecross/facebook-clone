@@ -1,8 +1,9 @@
 const Post = require('../lib/post')
-const Helper = require('./support/database-helpers')
+const Helper = require('./test-helpers')
+
+const expect = require('chai').expect
 
 describe('Post', () => {
-
   beforeEach(async () => {
     await Helper.setupConnection()
     await Helper.truncateDatabase()
@@ -11,8 +12,8 @@ describe('Post', () => {
   describe('.postObject', () => {
     it('should return a post object', () => {
       let result = Post.postObject(Helper.mockPostDatabaseData())
-      
-      expect(result.firstName).toEqual('Michael')
+
+      expect(result.firstName).equal('Michael')
     })
   })
 
@@ -22,7 +23,7 @@ describe('Post', () => {
 
       let result = await Post.create({ userId: 1, content: `I'm not superstitious, but I am a little stitious.` })
 
-      expect(result.rows[0].content).toEqual(`I'm not superstitious, but I am a little stitious.`)
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -39,7 +40,7 @@ describe('Post', () => {
 
       let results = await Post.getPosts({ userId: 1 })
 
-      expect(results.length).toEqual(2)
+      expect(results.length).equal(2)
     })
   })
 })

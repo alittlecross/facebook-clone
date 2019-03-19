@@ -1,8 +1,9 @@
 const Like = require('../lib/like')
-const Helper = require('./support/database-helpers')
+const Helper = require('./test-helpers')
+
+const expect = require('chai').expect
 
 describe('Like', () => {
-
   beforeEach(async () => {
     await Helper.setupConnection()
     await Helper.truncateDatabase()
@@ -12,7 +13,7 @@ describe('Like', () => {
     it('should return a like object', () => {
       let result = Like.likeObject(Helper.mockLikeDatabaseData())
 
-      expect(result.firstName).toEqual('Michael')
+      expect(result.firstName).equal('Michael')
     })
   })
 
@@ -23,7 +24,7 @@ describe('Like', () => {
 
       let result = await Like.create({ userId: 1, postId: 1 })
 
-      expect(result.rows[0].userid).toEqual(1)
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -35,7 +36,7 @@ describe('Like', () => {
 
       let result = await Like.delete({ userId: 1, postId: 1 })
 
-      expect(result.rowCount).toEqual(1)
+      expect(result.rowCount).equal(1)
     })
   })
 
@@ -47,7 +48,7 @@ describe('Like', () => {
 
       let result = await Like.read({ userId: 1, postId: 1 })
 
-      expect(result).toEqual(1)
+      expect(result).equal(1)
     })
   })
 
@@ -60,7 +61,7 @@ describe('Like', () => {
 
       let result = await Helper.mockReadLike({ userId: 1, postId: 1 })
 
-      expect(result.rowCount).toEqual(1)
+      expect(result.rowCount).equal(1)
     })
 
     it('should return evidence that the like was deleted', async () => {
@@ -72,7 +73,7 @@ describe('Like', () => {
 
       let result = await Helper.mockReadLike({ userId: 1, postId: 1 })
 
-      expect(result.rowCount).toEqual(0)
+      expect(result.rowCount).equal(0)
     })
   })
 })
